@@ -26,8 +26,9 @@ cp .env.example .env
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
 npm install
-npm run setup    # create database + run migrations
-npm run seed     # insert demo accounts and default rules
+mkdir -p data        # create the data folder for SQLite
+npm run setup        # create database + run migrations
+npm run seed         # insert demo accounts and default rules
 npm start
 ```
 
@@ -54,6 +55,21 @@ npm run test:security  # security tests
 npm run test:all       # all tests
 npm run report         # security engine evaluation report (FP/FN/latency)
 ```
+
+---
+
+## What's Built (Phase Progress)
+
+| Phase | Status | What it covers |
+|-------|--------|----------------|
+| P1 — Foundations | ✅ Done | Migrations, config, logger, error handler, health endpoint |
+| P2 — Auth & Audit | ✅ Done | Login/logout, sessions, RBAC, CSRF, rate limiting, lockout, hash-chained audit log |
+| P3 — Security Engine | ✅ Done | 6 detection rules, scorer, event scorer, pre/post comparison, consent policy, `npm run report` |
+| P4 — Module APIs | 🔲 Pending | FR-1 to FR-6 endpoints, mail sender, tracking routes |
+| P5 — Frontend | 🔲 Pending | Dashboard, all pages, accessibility |
+| P6 — Reports | 🔲 Pending | Sanitized CSV + HTML export, TRACEABILITY |
+| P7 — Testing | 🔲 Pending | Full test suite, security hardening |
+| P8 — Docs & Demo | 🔲 Pending | Guides, demo script, final report |
 
 ---
 

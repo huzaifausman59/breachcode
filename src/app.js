@@ -59,16 +59,18 @@ function createApp() {
   app.use(cookieParser());
 
   // ── Sessions ────────────────────────────────────────────────────────
-  // WHY connect-sqlite3:
-  //   Keeps sessions in the same SQLite DB as app data.
-  //   No extra infrastructure needed. Session data is server-side —
-  //   the cookie only holds an opaque session ID (TH5).
-  const SQLiteStore = require('connect-sqlite3')(session);
+  // WHY memorystore:
+  //   connect-sqlite3 has a compatibility bug with express-session's
+  //   cookie.expires handling. memorystore is a well-maintained
+  //   in-memory session store with TTL-based expiry that works
+  //   correctly on all platforms. Perfectly suitable for local dev
+  //   and demo purposes. Sessions are lost on restart — acceptable
+  //   since the spec requires local-only deployment.
+  const MemoryStore = require('memorystore')(session);
 
   app.use(session({
-    store: new SQLiteStore({
-      db:  path.basename(config.db.path),
-      dir: path.dirname(config.db.path),
+    store: new MemoryStore({
+      checkPeriod: config.session.idleMinutes * 60 * 1000,
     }),
     secret:            config.session.secret,
     resave:            false,

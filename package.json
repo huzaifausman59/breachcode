@@ -9,11 +9,11 @@
     "seed":  "node src/repo/seed.js",
     "start": "node src/server.js",
     "dev":   "node --watch src/server.js",
-    "test":           "node --test tests/unit/**/*.test.js tests/api/**/*.test.js",
-    "test:security":  "node --test tests/security/**/*.test.js",
-    "test:e2e":       "node --test tests/e2e/**/*.test.js",
-    "test:all":       "node --test tests/**/**/*.test.js",
-    "report":         "node src/security/engine/evaluate.js"
+    "test":          "node --test tests/unit/config.test.js tests/unit/redact.test.js tests/api/health.test.js tests/api/auth.test.js tests/api/admin.test.js",
+    "test:security": "node --test tests/security/rbac.test.js tests/security/audit-chain.test.js",
+    "test:e2e":      "node --test tests/e2e/recovery.test.js",
+    "test:all":      "node --test tests/unit/config.test.js tests/unit/redact.test.js tests/unit/urgencyLanguage.test.js tests/unit/mismatchedLink.test.js tests/unit/engine.test.js tests/api/health.test.js tests/api/auth.test.js tests/api/admin.test.js tests/security/rbac.test.js tests/security/audit-chain.test.js",
+    "report":        "node src/security/engine/evaluate.js"
   },
   "dependencies": {
     "dotenv":             "^16.4.5",
@@ -22,7 +22,7 @@
     "express":            "^4.18.3",
     "express-rate-limit": "^7.2.0",
     "express-session":    "^1.18.0",
-    "connect-sqlite3":    "^0.9.14",
+    "memorystore":        "^1.6.7",
     "helmet":             "^7.1.0",
     "multer":             "^1.4.5-lts.1",
     "nodemailer":         "^6.9.12",

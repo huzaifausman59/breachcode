@@ -44,7 +44,7 @@ test('Admin can create a new user', async () => {
     .post('/api/v1/admin/users')
     .set('Cookie', cookies)
     .set('x-csrf-token', csrfToken)
-    .send({ username: 'newoperator', password: 'NewOp@pass1', role: 'operator' });
+    .send({ username: 'newoperator', password: 'NewOp@pass123', role: 'operator' });
   assert.equal(res.status, 201);
   assert.equal(res.body.user.username, 'newoperator');
   assert.equal(res.body.user.role, 'operator');
@@ -77,7 +77,7 @@ test('Admin can update user role', async () => {
     .post('/api/v1/admin/users')
     .set('Cookie', cookies)
     .set('x-csrf-token', csrfToken)
-    .send({ username: 'roleuser', password: 'Role@user1', role: 'viewer' });
+    .send({ username: 'roleuser', password: 'Role@user123', role: 'viewer' });
   const userId = createRes.body.user.id;
 
   const updateRes = await request(app)
