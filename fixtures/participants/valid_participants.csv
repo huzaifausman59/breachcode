@@ -1,0 +1,6 @@
+email,display_name,consent_at,consent_source
+alice@northwind-university.local,Alice Smith,2026-01-15T09:00:00Z,csv_import
+bob@northwind-university.local,Bob Jones,2026-01-15T09:00:00Z,csv_import
+carol@northwind-university.local,Carol White,2026-01-16T10:30:00Z,csv_import
+david@northwind-university.local,David Brown,2026-01-16T10:30:00Z,csv_import
+eve@northwind-university.local,Eve Davis,2026-01-17T08:00:00Z,csv_import

@@ -1,0 +1,15 @@
+{
+  "_comment": "Normal template — no phishing indicators. Engine should return decision=allow, risk_level=low.",
+  "id": "fixture-normal-001",
+  "name": "Monthly Newsletter",
+  "subject": "Your Northwind University Newsletter — November 2026",
+  "sender_name": "Northwind University",
+  "sender_email": "newsletter@northwind-university.local",
+  "html_body": "<p>Dear Alice,</p><p>Welcome to this month's newsletter from Northwind University.</p><p>Please visit our <a href='http://northwind-university.local/news'>news page</a> for the latest updates.</p><p>Best regards,<br>The Northwind Team</p>",
+  "text_body": "Dear Alice,\n\nWelcome to this month's newsletter from Northwind University.\n\nPlease visit our news page for the latest updates.\n\nBest regards,\nThe Northwind Team",
+  "expected": {
+    "decision": "allow",
+    "risk_level": "low",
+    "indicators_count": 0
+  }
+}

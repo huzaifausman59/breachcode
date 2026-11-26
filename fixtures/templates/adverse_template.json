@@ -1,0 +1,22 @@
+{
+  "_comment": "Adverse template — all 6 phishing indicators deliberately seeded. Engine should return decision=block, risk_level=high.",
+  "id": "fixture-adverse-001",
+  "name": "Adverse Sample — All Indicators",
+  "subject": "URGENT: Your account will be suspended — Action Required",
+  "sender_name": "PayPal Support",
+  "sender_email": "support@paypa1-secure.xyz",
+  "html_body": "<p>Dear Customer,</p><p>URGENT: Your account will be suspended within 24 hours unless you act immediately.</p><p>Please <a href='http://paypa1-secure.xyz/login'>click here to verify your account</a> at <a href='http://paypa1-secure.xyz'>www.paypal.com</a>.</p><p>Enter your password and credentials to reactivate your account.</p>",
+  "text_body": "Dear Customer,\n\nURGENT: Your account will be suspended within 24 hours unless you act immediately.\n\nPlease verify your account and enter your password to reactivate your account.\n\nPayPal Support",
+  "expected": {
+    "decision": "block",
+    "risk_level": "high",
+    "indicators": [
+      "urgency_language",
+      "generic_greeting",
+      "mismatched_link",
+      "suspicious_tld",
+      "sender_mismatch",
+      "credential_request"
+    ]
+  }
+}
