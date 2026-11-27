@@ -15,6 +15,8 @@ const { verifyChain }       = require('../../security/audit/verify');
 const { hashPassword }      = require('../../security/auth/hash');
 const userRepo              = require('../../repo/userRepo');
 const auditRepo             = require('../../repo/auditRepo');
+const ruleRepo              = require('../../repo/ruleRepo');
+const { ruleUpdateSchema }  = require('../schemas/template.schema');
 
 // All admin routes require auth + admin role.
 router.use(requireAuth, requireRole(ROLES.ADMIN));
@@ -88,8 +90,34 @@ router.get('/audit', (req, res) => {
 // ── GET /admin/audit/verify ─────────────────────────────────────────────────
 router.get('/audit/verify', (req, res) => {
   const result = verifyChain();
-  // 200 whether ok or not — the payload tells the story.
   res.json(result);
+});
+
+// ── GET /admin/rules ─────────────────────────────────────────────────────────
+router.get('/rules', (_req, res) => {
+  res.json({ rules: ruleRepo.listRules() });
+});
+
+// ── PUT /admin/rules/:id ─────────────────────────────────────────────────────
+router.put('/rules/:id', validate(ruleUpdateSchema), async (req, res, next) => {
+  const existing = ruleRepo.findById(req.params.id);
+  if (!existing) return next(createError('E_NOT_FOUND', 'Rule not found.'));
+
+  const updated = ruleRepo.updateRule(req.params.id, {
+    weight:    req.validated.weight,
+    threshold: req.validated.threshold,
+    is_active: req.validated.is_active,
+  });
+
+  await appendAudit({
+    actorId: req.session.user.id, actorRole: req.session.user.role,
+    action: 'rule.update', targetType: 'rule', targetId: req.params.id,
+    outcome: 'success',
+    detail: { rule_id: existing.rule_id, old_version: existing.version, new_version: updated.version },
+    requestId: req.id, ip: req.ip,
+  });
+
+  res.json({ rule: updated });
 });
 
 module.exports = router;
