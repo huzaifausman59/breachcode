@@ -19,8 +19,15 @@ const { ensureCsrfCookie, verifyCsrf} = require('./security/auth/csrf');
 const { apiRateLimiter }              = require('./security/auth/rateLimiter');
 
 // Routes
-const authRouter  = require('./api/routes/auth');
-const adminRouter = require('./api/routes/admin');
+const authRouter        = require('./api/routes/auth');
+const adminRouter       = require('./api/routes/admin');
+const templatesRouter   = require('./api/routes/templates');
+const participantsRouter = require('./api/routes/participants');
+const campaignsRouter   = require('./api/routes/campaigns');
+const trackRouter       = require('./api/routes/track');
+const lessonsRouter     = require('./api/routes/lessons');
+const analyticsRouter   = require('./api/routes/analytics');
+const reportsRouter     = require('./api/routes/reports');
 
 function createApp() {
   const app = express();
@@ -122,6 +129,15 @@ function createApp() {
 
   // ── Admin routes ─────────────────────────────────────────────────────
   app.use('/api/v1/admin', adminRouter);
+
+  // 25002500 Module routes FR-1 to FR-6 250025002500250025002500250025002500250025002500250025002500250025002500250025002500250025002500250025002500250025002500250025002500250025002500250025002500250025002500250025002500
+  app.use('/api/v1/templates',    templatesRouter);
+  app.use('/api/v1/participants', participantsRouter);
+  app.use('/api/v1/campaigns',    campaignsRouter);
+  app.use('/api/v1/t',            trackRouter);
+  app.use('/api/v1/lessons',      lessonsRouter);
+  app.use('/api/v1/analytics',    analyticsRouter);
+  app.use('/api/v1/reports',      reportsRouter);
 
   // ── 404 handler ──────────────────────────────────────────────────────
   app.use((_req, res) => {

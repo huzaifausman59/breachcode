@@ -9,10 +9,11 @@
     "seed":  "node src/repo/seed.js",
     "start": "node src/server.js",
     "dev":   "node --watch src/server.js",
-    "test":          "node --test tests/unit/config.test.js tests/unit/redact.test.js tests/api/health.test.js tests/api/auth.test.js tests/api/admin.test.js",
-    "test:security": "node --test tests/security/rbac.test.js tests/security/audit-chain.test.js",
+    "test":          "node --test tests/unit/config.test.js tests/unit/redact.test.js tests/api/health.test.js tests/api/auth.test.js tests/api/admin.test.js tests/api/modules.test.js",
+    "test:security": "node --test tests/security/rbac.test.js tests/security/audit-chain.test.js tests/security/no-credentials.test.js",
+    "test:unit":     "node --test tests/unit/config.test.js tests/unit/redact.test.js tests/unit/urgencyLanguage.test.js tests/unit/mismatchedLink.test.js tests/unit/engine.test.js",
     "test:e2e":      "node --test tests/e2e/recovery.test.js",
-    "test:all":      "node --test tests/unit/config.test.js tests/unit/redact.test.js tests/unit/urgencyLanguage.test.js tests/unit/mismatchedLink.test.js tests/unit/engine.test.js tests/api/health.test.js tests/api/auth.test.js tests/api/admin.test.js tests/security/rbac.test.js tests/security/audit-chain.test.js",
+    "test:all":      "node --test tests/unit/config.test.js tests/unit/redact.test.js tests/unit/urgencyLanguage.test.js tests/unit/mismatchedLink.test.js tests/unit/engine.test.js tests/api/health.test.js tests/api/auth.test.js tests/api/admin.test.js tests/api/modules.test.js tests/security/rbac.test.js tests/security/audit-chain.test.js tests/security/no-credentials.test.js",
     "report":        "node src/security/engine/evaluate.js"
   },
   "dependencies": {

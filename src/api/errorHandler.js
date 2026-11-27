@@ -48,6 +48,17 @@ function createError(code, message, extra = {}) {
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
+  // Multer (file upload) errors, e.g. LIMIT_FILE_SIZE: safe 400, never a 500.
+  if (err && err.name === 'MulterError') {
+    logger.warn({ code: err.code, path: req.path, requestId: req.id }, 'Upload rejected');
+    return res.status(400).json({
+      error: {
+        code:    'E_FILE',
+        message: err.code === 'LIMIT_FILE_SIZE' ? 'File is too large.' : 'Invalid file upload.',
+      },
+    });
+  }
+
   if (err.isOp) {
     // Operational error — expected, safe to describe to client.
     logger.warn({ code: err.code, path: req.path, requestId: req.id }, err.message);
