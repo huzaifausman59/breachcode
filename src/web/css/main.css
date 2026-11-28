@@ -796,3 +796,17 @@ tr:hover td { background: #f8f9fa; }
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0,0,0,0); border: 0;
 }
+
+/* T5 accessibility fixes */
+:root {
+  --text-secondary: #5f6c6d;
+  --text-muted:     #5f6c6d;
+  --color-primary:  #1e8449;
+  --color-primary-dk: #186a3b;
+}
+.sidebar-footer { color: rgba(255,255,255,.75); }
+.sidebar-footer .btn-secondary {
+  color: #ecf0f1;
+  border-color: rgba(255,255,255,.45);
+}
+.sidebar-footer .btn-secondary:hover { background: rgba(255,255,255,.1); }
