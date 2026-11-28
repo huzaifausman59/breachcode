@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Templates — BreachCoach</title>
+  <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation"></aside>
+    <div class="main">
+      <header class="main-header">
+        <div>
+          <h1 class="page-title">Email Templates</h1>
+          <p class="page-subtitle">Create and analyze phishing simulation templates</p>
+        </div>
+        <div class="main-actions">
+          <button class="btn btn-primary" id="new-template-btn" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="white"/></svg>
+            New Template
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content" id="main-content">
+        <div class="card">
+          <div class="table-wrapper">
+            <table aria-label="Email templates">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Subject</th>
+                  <th>Sender</th>
+                  <th>Risk Level</th>
+                  <th>Decision</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="template-tbody">
+                <tr><td colspan="6"><div class="spinner" style="margin:16px auto"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- New/Edit Template Modal -->
+  <div class="modal-backdrop hidden" id="template-modal" role="dialog" aria-modal="true" aria-labelledby="template-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="template-modal-title">New Template</h2>
+        <button class="modal-close" aria-label="Close" data-close-modal="template-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="template-form" novalidate>
+          <input type="hidden" id="template-id"/>
+          <div class="form-group">
+            <label for="t-name">Template Name</label>
+            <input id="t-name" name="name" type="text" required placeholder="e.g. Password Reset Phish"/>
+          </div>
+          <div class="form-group">
+            <label for="t-sender-name">Sender Display Name</label>
+            <input id="t-sender-name" name="sender_name" type="text" required placeholder="e.g. IT Support"/>
+          </div>
+          <div class="form-group">
+            <label for="t-sender-email">Sender Email</label>
+            <input id="t-sender-email" name="sender_email" type="email" required placeholder="support@example-training.local"/>
+          </div>
+          <div class="form-group">
+            <label for="t-subject">Email Subject</label>
+            <input id="t-subject" name="subject" type="text" required placeholder="e.g. URGENT: Reset your password"/>
+          </div>
+          <div class="form-group">
+            <label for="t-html-body">Email HTML Body</label>
+            <textarea id="t-html-body" name="html_body" required rows="8" placeholder="<p>Dear Customer, ...</p>"></textarea>
+            <p class="form-hint">HTML is accepted. Use {first_name} as a placeholder for the recipient's name.</p>
+          </div>
+          <div class="form-group">
+            <label for="t-text-body">Plain Text Version (optional)</label>
+            <textarea id="t-text-body" name="text_body" rows="4" placeholder="Plain text version..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal="template-modal">Cancel</button>
+        <button class="btn btn-primary" id="template-save-btn">Save &amp; Analyze</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Modal -->
+  <div class="modal-backdrop hidden" id="result-modal" role="dialog" aria-modal="true" aria-labelledby="result-modal-title">
+    <div class="modal" style="max-width:680px">
+      <div class="modal-header">
+        <h2 class="modal-title" id="result-modal-title">Analysis Result</h2>
+        <button class="modal-close" aria-label="Close" data-close-modal="result-modal">✕</button>
+      </div>
+      <div class="modal-body" id="result-modal-body"></div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/pages/templates.js"></script>
+</body>
+</html>

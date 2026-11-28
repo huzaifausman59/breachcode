@@ -114,7 +114,9 @@ function createApp() {
   app.use('/api/v1', apiRateLimiter);
 
   // ── CSRF verification for state-changing API requests ───────────────
-  app.use('/api/v1', verifyCsrf);
+    // Public, token-authenticated tracking endpoints (landing form can't send a CSRF header)
+  app.use('/api/v1', (req, res, next) =>
+    req.path.startsWith('/t/') ? next() : verifyCsrf(req, res, next));
 
   // ── Static files ────────────────────────────────────────────────────
   app.use(express.static(path.join(__dirname, 'web')));

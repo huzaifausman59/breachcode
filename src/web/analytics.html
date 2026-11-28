@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Analytics — BreachCoach</title>
+  <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation"></aside>
+    <div class="main">
+      <header class="main-header">
+        <div>
+          <h1 class="page-title">Analytics</h1>
+          <p class="page-subtitle">Pre/post training comparison and campaign metrics</p>
+        </div>
+      </header>
+      <main class="main-content" id="main-content">
+        <div class="card mb-lg">
+          <div class="card-header"><h2 class="card-title">Pre / Post Training Comparison</h2></div>
+          <div class="card-body">
+            <div class="flex gap-md mb-md" style="flex-wrap:wrap">
+              <div class="form-group" style="flex:1;min-width:200px">
+                <label for="pre-select">Pre-Training Campaign</label>
+                <select id="pre-select"><option value="">— Select —</option></select>
+              </div>
+              <div class="form-group" style="flex:1;min-width:200px">
+                <label for="post-select">Post-Training Campaign</label>
+                <select id="post-select"><option value="">— Select —</option></select>
+              </div>
+              <div style="display:flex;align-items:flex-end;padding-bottom:1px">
+                <button class="btn btn-primary" id="compare-btn">Compare</button>
+              </div>
+            </div>
+            <div id="comparison-result"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h2 class="card-title">All Campaign Summaries</h2></div>
+          <div class="table-wrapper">
+            <table aria-label="Campaign summaries">
+              <thead>
+                <tr><th>Campaign</th><th>Phase</th><th>Status</th><th>Sent</th><th>Click Rate</th><th>Submit Rate</th><th>Report Rate</th></tr>
+              </thead>
+              <tbody id="analytics-tbody">
+                <tr><td colspan="7"><div class="spinner" style="margin:16px auto"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/pages/analytics.js"></script>
+</body>
+</html>
