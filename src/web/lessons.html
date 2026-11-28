@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Lessons — BreachCoach</title>
+  <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation"></aside>
+    <div class="main">
+      <header class="main-header">
+        <div>
+          <h1 class="page-title">Micro-Lessons</h1>
+          <p class="page-subtitle">Red-flag explanations shown to participants after clicking</p>
+        </div>
+        <div class="main-actions">
+          <button class="btn btn-primary" id="new-lesson-btn" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="white"/></svg>
+            New Lesson
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content" id="main-content">
+        <div class="card">
+          <div class="table-wrapper">
+            <table aria-label="Micro-lessons">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Linked Template</th>
+                  <th>Indicators</th>
+                  <th>Last Updated</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="lesson-tbody">
+                <tr><td colspan="5"><div class="spinner" style="margin:16px auto"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- New/Edit Lesson Modal -->
+  <div class="modal-backdrop hidden" id="lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lesson-modal-title">
+    <div class="modal" style="max-width:640px">
+      <div class="modal-header">
+        <h2 class="modal-title" id="lesson-modal-title">New Lesson</h2>
+        <button class="modal-close" aria-label="Close" data-close-modal="lesson-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="lesson-form" novalidate>
+          <input type="hidden" id="lesson-id"/>
+          <div class="form-group">
+            <label for="l-template">Linked Template</label>
+            <select id="l-template" name="template_id" required aria-required="true">
+              <option value="">— Select template —</option>
+            </select>
+            <p class="form-hint">This lesson is shown to participants who clicked the link in this template's email.</p>
+          </div>
+          <div class="form-group">
+            <label for="l-title">Lesson Title</label>
+            <input id="l-title" name="title" type="text" required placeholder="e.g. Phishing Red Flags Explained"/>
+          </div>
+          <div class="form-group">
+            <label for="l-content">Lesson Content (HTML)</label>
+            <textarea id="l-content" name="content_html" required rows="8"
+              placeholder="<p>This email contained several phishing indicators...</p>"></textarea>
+            <p class="form-hint">HTML is accepted. Keep content concise — participants see this immediately after clicking.</p>
+          </div>
+          <div class="form-group">
+            <label for="l-indicators">Red Flag Indicators (one per line)</label>
+            <textarea id="l-indicators" rows="4"
+              placeholder="Urgency language: 'Act now or your account will be suspended'&#10;Generic greeting: 'Dear Customer'&#10;Mismatched link: visible URL differs from actual destination"></textarea>
+            <p class="form-hint">These are shown as highlighted red flags on the lesson page. Pulled from the engine analysis when available.</p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal="lesson-modal">Cancel</button>
+        <button class="btn btn-primary" id="lesson-save-btn">Save Lesson</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/pages/lessons.js"></script>
+</body>
+</html>

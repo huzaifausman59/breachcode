@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Campaigns — BreachCoach</title>
+  <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation"></aside>
+    <div class="main">
+      <header class="main-header">
+        <div>
+          <h1 class="page-title">Campaigns</h1>
+          <p class="page-subtitle">Manage phishing simulation campaigns</p>
+        </div>
+        <div class="main-actions">
+          <button class="btn btn-primary" id="new-campaign-btn" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="white"/></svg>
+            New Campaign
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content" id="main-content">
+        <div class="card" id="campaign-list-card">
+          <div class="table-wrapper">
+            <table aria-label="Campaigns">
+              <thead>
+                <tr>
+                  <th>Name</th><th>Phase</th><th>Status</th>
+                  <th>Sent</th><th>Clicked</th><th>Submitted</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="campaign-tbody">
+                <tr><td colspan="7"><div class="spinner" style="margin:16px auto"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Campaign detail view -->
+        <div id="campaign-detail" class="hidden">
+          <button class="btn btn-secondary mb-md" id="back-btn">← Back to list</button>
+          <div class="card mb-lg" id="detail-header"></div>
+          <div class="stat-grid" id="detail-stats"></div>
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Event Timeline</h2></div>
+            <div class="card-body">
+              <div class="timeline" id="detail-timeline"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- New Campaign Modal -->
+  <div class="modal-backdrop hidden" id="campaign-modal" role="dialog" aria-modal="true" aria-labelledby="campaign-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="campaign-modal-title">New Campaign</h2>
+        <button class="modal-close" aria-label="Close" data-close-modal="campaign-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="campaign-form" novalidate>
+          <div class="form-group">
+            <label for="c-name">Campaign Name</label>
+            <input id="c-name" name="name" type="text" required placeholder="e.g. Q1 Pre-Training"/>
+          </div>
+          <div class="form-group">
+            <label for="c-template">Email Template</label>
+            <select id="c-template" name="template_id" required>
+              <option value="">— Select template —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="c-phase">Phase</label>
+            <select id="c-phase" name="phase" required>
+              <option value="pre">Pre-training</option>
+              <option value="post">Post-training</option>
+            </select>
+          </div>
+          <div class="form-group hidden" id="pre-campaign-group">
+            <label for="c-pre-campaign">Pre-training Campaign (required for post phase)</label>
+            <select id="c-pre-campaign" name="pre_campaign_id">
+              <option value="">— Select pre-training campaign —</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal="campaign-modal">Cancel</button>
+        <button class="btn btn-primary" id="campaign-save-btn">Create Campaign</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/pages/campaigns.js"></script>
+</body>
+</html>

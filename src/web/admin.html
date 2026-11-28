@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin — BreachCoach</title>
+  <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation"></aside>
+    <div class="main">
+      <header class="main-header">
+        <div>
+          <h1 class="page-title">Admin</h1>
+          <p class="page-subtitle">User management, engine rules, and audit log</p>
+        </div>
+      </header>
+
+      <main class="main-content" id="main-content">
+
+        <!-- Tab nav -->
+        <div style="display:flex;gap:4px;margin-bottom:var(--space-lg);border-bottom:2px solid var(--border-color)">
+          <button class="tab-btn active" data-tab="users"  data-action="switchTab" data-args='["users"]'>Users</button>
+          <button class="tab-btn"        data-tab="rules"  data-action="switchTab" data-args='["rules"]'>Detection Rules</button>
+          <button class="tab-btn"        data-tab="audit"  data-action="switchTab" data-args='["audit"]'>Audit Log</button>
+        </div>
+
+        <!-- Users tab -->
+        <div id="tab-users">
+          <div class="card mb-lg">
+            <div class="card-header">
+              <h2 class="card-title">System Users</h2>
+              <button class="btn btn-primary btn-sm" id="new-user-btn" aria-haspopup="dialog">+ New User</button>
+            </div>
+            <div class="table-wrapper">
+              <table aria-label="System users">
+                <thead>
+                  <tr><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="users-tbody">
+                  <tr><td colspan="4"><div class="spinner" style="margin:16px auto"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rules tab -->
+        <div id="tab-rules" class="hidden">
+          <div class="alert alert-info mb-md">
+            Changing a rule threshold increments its version. Every subsequent analysis result will record the new version, keeping decisions reproducible.
+          </div>
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Detection Engine Rules</h2></div>
+            <div class="table-wrapper">
+              <table aria-label="Detection rules">
+                <thead>
+                  <tr><th>Rule</th><th>Version</th><th>Weight</th><th>Threshold</th><th>Active</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="rules-tbody">
+                  <tr><td colspan="6"><div class="spinner" style="margin:16px auto"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audit tab -->
+        <div id="tab-audit" class="hidden">
+          <div class="card mb-md">
+            <div class="card-header">
+              <h2 class="card-title">Audit Log</h2>
+              <button class="btn btn-secondary btn-sm" id="verify-chain-btn">Verify Hash Chain</button>
+            </div>
+            <div id="chain-result" class="hidden" style="padding:0 var(--space-lg) var(--space-md)"></div>
+            <div class="table-wrapper">
+              <table aria-label="Audit log">
+                <thead>
+                  <tr><th>Seq</th><th>Time</th><th>Actor</th><th>Action</th><th>Target</th><th>Outcome</th></tr>
+                </thead>
+                <tbody id="audit-tbody">
+                  <tr><td colspan="6"><div class="spinner" style="margin:16px auto"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="padding:var(--space-md);display:flex;justify-content:flex-end;gap:var(--space-sm)">
+              <button class="btn btn-secondary btn-sm" id="audit-prev">← Previous</button>
+              <span id="audit-page-label" style="font-size:var(--text-sm);display:flex;align-items:center;color:var(--text-secondary)">Page 1</span>
+              <button class="btn btn-secondary btn-sm" id="audit-next">Next →</button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- New User Modal -->
+  <div class="modal-backdrop hidden" id="user-modal" role="dialog" aria-modal="true" aria-labelledby="user-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="user-modal-title">New User</h2>
+        <button class="modal-close" aria-label="Close" data-close-modal="user-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="user-form" novalidate>
+          <input type="hidden" id="user-id"/>
+          <div class="form-group">
+            <label for="u-username">Username</label>
+            <input id="u-username" name="username" type="text" required autocomplete="off"/>
+          </div>
+          <div class="form-group" id="u-password-group">
+            <label for="u-password">Password</label>
+            <input id="u-password" name="password" type="password" autocomplete="new-password"/>
+            <p class="form-hint">Min 12 characters, must include uppercase, lowercase, and number.</p>
+          </div>
+          <div class="form-group">
+            <label for="u-role">Role</label>
+            <select id="u-role" name="role" required>
+              <option value="viewer">Viewer — read-only results</option>
+              <option value="operator">Operator — run campaigns</option>
+              <option value="admin">Admin — full access</option>
+            </select>
+          </div>
+          <div class="form-group hidden" id="u-active-group">
+            <label>
+              <input type="checkbox" id="u-active" name="is_active" checked/>
+              Account active
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal="user-modal">Cancel</button>
+        <button class="btn btn-primary" id="user-save-btn">Create User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Rule Modal -->
+  <div class="modal-backdrop hidden" id="rule-modal" role="dialog" aria-modal="true" aria-labelledby="rule-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="rule-modal-title">Edit Rule</h2>
+        <button class="modal-close" aria-label="Close" data-close-modal="rule-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning mb-md">This is a high-impact action. Changing thresholds affects all future analyses.</div>
+        <form id="rule-form" novalidate>
+          <input type="hidden" id="rule-id"/>
+          <div class="form-group">
+            <label for="r-name">Rule</label>
+            <input id="r-name" type="text" disabled/>
+          </div>
+          <div class="form-group">
+            <label for="r-weight">Weight (0–10)</label>
+            <input id="r-weight" name="weight" type="number" min="0" max="10" step="0.1" required/>
+            <p class="form-hint">How much this rule contributes to the total risk score when triggered.</p>
+          </div>
+          <div class="form-group">
+            <label for="r-threshold">Threshold (0–100)</label>
+            <input id="r-threshold" name="threshold" type="number" min="0" max="100" step="0.1" required/>
+            <p class="form-hint">Total score above this value triggers a warn/block decision.</p>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="r-active"/>
+              Rule active
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal="rule-modal">Cancel</button>
+        <button class="btn btn-danger" id="rule-save-btn">Update Rule</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .tab-btn {
+      background: none; border: none; border-bottom: 3px solid transparent;
+      padding: 10px 20px; font-size: var(--text-sm); font-weight: 600;
+      cursor: pointer; color: var(--text-secondary); margin-bottom: -2px;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .tab-btn:hover { color: var(--text-primary); }
+    .tab-btn.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+    .tab-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: 2px; }
+  </style>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/pages/admin.js"></script>
+</body>
+</html>

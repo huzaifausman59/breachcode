@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Participants — BreachCoach</title>
+  <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation"></aside>
+    <div class="main">
+      <header class="main-header">
+        <div>
+          <h1 class="page-title">Participants</h1>
+          <p class="page-subtitle">Consented participants for phishing simulations</p>
+        </div>
+        <div class="main-actions">
+          <button class="btn btn-primary" id="import-btn" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="white"/></svg>
+            Import CSV
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content" id="main-content">
+        <div class="card">
+          <div class="table-wrapper">
+            <table aria-label="Participants list">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Display Name</th>
+                  <th>Consent Status</th>
+                  <th>Consent Date</th>
+                  <th>Opted Out</th>
+                </tr>
+              </thead>
+              <tbody id="participant-tbody">
+                <tr><td colspan="5"><div class="spinner" style="margin:16px auto"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="modal-backdrop hidden" id="import-modal" role="dialog" aria-modal="true" aria-labelledby="import-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="import-modal-title">Import Participants (CSV)</h2>
+        <button class="modal-close" aria-label="Close" data-close-modal="import-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info">
+          <strong>Required CSV columns:</strong> email, display_name (optional), consent_at (ISO date), consent_source
+        </div>
+        <div class="form-group">
+          <label for="csv-file">CSV File</label>
+          <input id="csv-file" type="file" accept=".csv" aria-required="true"/>
+          <p class="form-hint">Max 5 MB. Formula prefixes (=, +, -, @) are automatically rejected.</p>
+        </div>
+        <div id="import-result" class="hidden"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal="import-modal">Cancel</button>
+        <button class="btn btn-primary" id="import-confirm-btn">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/pages/participants.js"></script>
+</body>
+</html>
